@@ -1,0 +1,43 @@
+feature,type,test,statistic,p_value,significant,unique_values
+lead_time,continuous,ANOVA F-test,3861.8238308509412,0.0,True,131
+is_same_day,binary,Chi-square,5706.5463736335505,0.0,True,2
+SMS_received,binary,Chi-square,1232.4286362906018,5.4667530207280715e-270,True,2
+patient_previous_noshow_rate,continuous,ANOVA F-test,729.681986479283,3.5828774260505923e-160,True,197
+patient_previous_noshow_count,continuous,ANOVA F-test,714.164377704388,8.056524187248575e-157,True,11
+Age,continuous,ANOVA F-test,403.2209593377169,1.5965727885872016e-89,True,104
+Registration_Hour,continuous,ANOVA F-test,393.92918152667585,1.6538366852926838e-87,True,16
+Registration_Month,categorical,Chi-square,293.666113343661,7.902424983396943e-66,True,8
+Registration_Day,continuous,ANOVA F-test,230.1449883849105,6.2691904037131926e-52,True,31
+Registration_Shift,binary,Chi-square,118.16348739768335,1.5966968504510749e-27,True,2
+Hipertension,binary,Chi-square,111.56394457966547,4.452113155875472e-26,True,2
+Scholarship,binary,Chi-square,80.18235866696328,3.4140169586160523e-19,True,2
+days_since_last_appointment,continuous,ANOVA F-test,76.69349680373152,2.0245926587514014e-18,True,41
+patient_appointment_count,continuous,ANOVA F-test,58.202461105908064,2.384025182333983e-14,True,76
+time_between_appointments_avg,continuous,ANOVA F-test,45.29200087960017,1.7058183493214145e-11,True,642
+season_encoded,binary,Chi-square,41.7151156569361,1.055894865195853e-10,True,2
+neighbourhood_cluster_encoded,categorical,Chi-square,24.635404318141255,6.926738637806715e-07,True,6
+appointment_regularity,continuous,ANOVA F-test,24.165233941814186,8.854298364631834e-07,True,3151
+Diabetes,binary,Chi-square,20.935875401595602,4.749165590926855e-06,True,2
+temp_change,continuous,ANOVA F-test,17.32346137259019,3.155135316074437e-05,True,27
+rad_max,continuous,ANOVA F-test,16.94892991632414,3.842737565385136e-05,True,27
+temp_range,continuous,ANOVA F-test,9.425208073689346,0.002140757641342445,True,24
+Handcap,categorical,Chi-square,8.591884300558158,0.003376644312313199,True,5
+temp_min,continuous,ANOVA F-test,4.41530958730901,0.03562011966636387,True,23
+is_rainy,binary,Chi-square,2.905244857930133,0.0882918443242779,False,2
+temp_change_abs,continuous,ANOVA F-test,2.8861587137154814,0.0893465842536446,False,26
+Appointment_Month,categorical,Chi-square,1.7423404146367907,0.18684255377291253,False,3
+month,categorical,Chi-square,1.7423404146367907,0.18684255377291253,False,3
+is_hot,binary,Chi-square,1.6789010389192083,0.19507054259900908,False,2
+Gender_F,binary,Chi-square,1.0738366938073862,0.300080432855257,False,2
+temp_avg,continuous,ANOVA F-test,0.99161507683724,0.31935018063671994,False,25
+rain_max,continuous,ANOVA F-test,0.9167106878878956,0.3383422603068331,False,11
+Appointment_Day,continuous,ANOVA F-test,0.8624562026458055,0.3530543222277721,False,24
+Registration_Weekday,categorical,Chi-square,0.8340670994739882,0.3610991150991957,False,6
+temp_max,continuous,ANOVA F-test,0.4109951463777697,0.5214661966819876,False,25
+wind_avg,continuous,ANOVA F-test,0.21276914447469544,0.6446065072845117,False,26
+hum_min,continuous,ANOVA F-test,0.20006746103610804,0.6546672934777706,False,17
+hum_max,categorical,Chi-square,0.11702429624240294,0.7322845617555234,False,5
+Alcoholism,binary,Chi-square,0.03665598545194119,0.8481671518514868,False,2
+is_windy,binary,Chi-square,0.025861973854707003,0.8722378626993389,False,2
+Appointment_Weekday,categorical,Chi-square,0.0020714340430822297,0.9636984054813437,False,6
+Registration_Year,binary,Chi-square,1.2177083234322388e-06,0.999119535985397,False,2

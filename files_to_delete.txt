@@ -1,0 +1,51 @@
+FILES SAFE TO DELETE - QI AI No-Show Research Project
+============================================================
+
+MAIN DIRECTORY:
+--------------
+
+SAFE TO DELETE:
+  - nul                                    (Empty file created by error)
+
+FEATURE_SELECTION_ANALYSIS FOLDER:
+---------------------------------
+
+ESSENTIAL FILES TO KEEP:
+  - ml_dataset_all_features.csv            (Final ML dataset - all features)
+  - ml_dataset_selected_features.csv       (Final ML dataset - 24 selected features)
+  - feature_lists.txt                      (Feature documentation)
+  - univariate_test_results_all_features.csv (Complete analysis results)
+
+SAFE TO DELETE (redundant/intermediate files):
+  - check_all_variables.py                 (One-time validation script)
+  - all_variables_list.txt                 (Superseded by feature_lists.txt)
+  - feature_selection.py                   (Old incomplete version)
+  - feature_selection_univariate.py        (Old incomplete version)  
+  - univariate_feature_selection.py        (Old version)
+  - feature_selection_results.json         (From incomplete analysis)
+  - feature_selection_table.tex            (LaTeX table not requested)
+  - selected_features_detailed.csv         (Old incomplete results)
+  - selected_features_univariate.csv       (Redundant - same as in results file)
+  - univariate_feature_selection_results.csv (Old incomplete results)
+  - feature_selection_summary.txt          (Already have better documentation)
+
+DECISION ON dataV05_with_all_features.csv:
+  - This is an intermediate dataset (33 variables)
+  - Can be deleted if space is needed
+  - The final dataset (54 variables) is available as final_dataset_with_weather_clusters.csv
+
+SUMMARY:
+--------
+KEEP (Essential):
+  - ml_dataset_all_features.csv
+  - ml_dataset_selected_features.csv  
+  - feature_lists.txt
+  - univariate_test_results_all_features.csv
+  - create_ml_ready_dataset.py
+  - univariate_feature_selection.py (final version)
+
+DELETE (Safe to remove):
+  - nul
+  - 10+ redundant/intermediate files in feature_selection_analysis/
+
+SPACE SAVINGS: ~10-15 MB by removing redundant CSV files and scripts

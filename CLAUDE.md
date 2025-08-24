@@ -68,7 +68,48 @@
   - `is_windy`: 강풍일 >3m/s
   - `season`: 계절 (가을 75.9%, 겨울 24.1%)
 
+## Feature Selection 결과
+
+### ML-Ready 데이터셋
+
+**Univariate Statistical Test 결과**:
+- **전체 46개 변수** 중 4개 상수 변수 제거 후 42개 변수 분석
+- **24개 변수 선택** (57.1% 선택률, p-value < 0.05)
+- ANOVA F-test (연속형), Chi-square test (범주형/이진형) 적용
+
+**선택된 주요 변수**:
+1. **예약 타이밍 (6개)**: lead_time, is_same_day, Registration_Hour/Month/Day/Shift
+2. **환자 이력 (6개)**: 모든 patient_* 시계열 변수들 
+3. **의료 상태 (3개)**: Hipertension, Diabetes, Handcap
+4. **환자 정보 (2개)**: Age, Scholarship
+5. **시스템 (1개)**: SMS_received
+6. **지역 (1개)**: neighbourhood_cluster_encoded
+7. **날씨 (4개)**: temp_change, rad_max, temp_range, temp_min  
+8. **시간 (1개)**: season_encoded
+
+**ML-Ready 데이터셋**:
+- `feature_selection_analysis/ml_dataset_all_features.csv`: 108,296 × 44 (전체 43개 feature)
+- `feature_selection_analysis/ml_dataset_selected_features.csv`: 108,296 × 27 (선택된 24개 feature)
+- 모든 categorical 변수 수치화 완료 (neighbourhood_cluster, season 인코딩)
+- **PatientId, AppointmentID 포함** (시계열 분석, data leakage 방지용)
+
+**중요 사항**:
+- **Data Leakage 방지**: 환자별 train/test split 필수 (동일 환자가 train/test에 동시 포함 금지)
+- **시계열 특성**: 데이터는 PatientId와 시간순으로 정렬됨
+- 사용법과 주의사항은 `feature_selection_analysis/feature_lists_and_usage_guide.txt` 참조
+
 ## 주요 명령어
+
+### Feature Selection 실행
+
+```bash
+# Feature selection 분석 (univariate statistical test)
+cd feature_selection_analysis
+python univariate_feature_selection.py
+
+# ML-ready 데이터셋 생성
+python create_ml_ready_dataset.py
+```
 
 ### 모델 실행
 
@@ -84,6 +125,9 @@ python main.py --csv final_dataset_with_weather_clusters.csv --models deepfm --e
 
 # 빠른 테스트 (적은 에포크)
 python main.py --csv final_dataset_with_weather_clusters.csv --epochs 20 --batch_size 2048 --models mlp
+
+# ML-ready 데이터셋으로 모델 실행 (권장)
+python main.py --csv feature_selection_analysis/ml_dataset_selected_features.csv --models mlp
 
 # 기존 데이터셋 비교 분석용
 python main.py --csv dataV05_with_all_features.csv --models mlp  # 날씨/클러스터 제외
@@ -154,18 +198,33 @@ pip install -r requirements.txt
 1. **시계열 특징 엔지니어링**: 환자별 이력 기반 6개 파생변수로 예측 성능 향상
 2. **지리적 클러스터링**: 81개 지역을 노쇼 패턴 기반 6개 클러스터로 차원 축소
 3. **외생변수 통합**: 19개 날씨 변수로 환경적 요인이 노쇼에 미치는 영향 분석
-4. **다중 모델 비교**: MLP, Wide&Deep, DeepFM, FT-Transformer, TabNet 성능 벤치마킹
+4. **통계적 특징 선택**: Univariate statistical test로 46→24개 변수 선별 (57.1% 선택률)
+5. **Data Leakage 방지**: 환자별 분할을 통한 시계열 데이터 누수 방지 체계 구축
+6. **다중 모델 비교**: MLP, Wide&Deep, DeepFM, FT-Transformer, TabNet 성능 벤치마킹
 
 ## 주요 발견사항
 
+**Feature Selection 결과**:
+- **최고 예측력**: lead_time (F=3861.8), is_same_day (χ²=5706.6), SMS_received (χ²=1232.4)  
+- **환자 이력**: 모든 patient_* 변수들이 통계적 유의성 확보 (p<0.001)
+- **날씨 변수**: 19개 중 4개만 선택 (temp_change, rad_max, temp_range, temp_min)
+
+**데이터 특성**:
 - **날씨 영향**: 비오는 날 노쇼율 0.55%p 감소, 고온일 0.81%p 증가
-- **지역 클러스터**: 최대 6.0%p 노쇼율 차이 (cluster_0 vs cluster_2)
+- **지역 클러스터**: 최대 6.0%p 노쇼율 차이 (cluster_0 vs cluster_2)  
 - **계절성**: 가을 75.9%, 겨울 24.1% 분포 (브라질 남반구 특성)
 
 ## 프로젝트 파일 구조
 
 ```
 ├── final_dataset_with_weather_clusters.csv    # 최종 통합 데이터셋 (54개 변수)
+├── feature_selection_analysis/                # Feature Selection 분석 결과
+│   ├── ml_dataset_all_features.csv           # ML용 전체 데이터셋 (108,296×44)
+│   ├── ml_dataset_selected_features.csv      # ML용 선택 데이터셋 (108,296×27)  
+│   ├── feature_lists_and_usage_guide.txt     # 사용법, Data leakage 방지 가이드
+│   ├── univariate_test_results_all_features.csv # 통계분석 상세 결과
+│   ├── univariate_feature_selection.py       # Feature selection 분석 스크립트
+│   └── create_ml_ready_dataset.py            # ML 데이터셋 생성 스크립트
 ├── neighbourhood_clustering_methodology.md     # 지역 클러스터링 방법론 문서
 ├── analyse_neighbourhood.py                   # 지역 분석 스크립트
 ├── validate_weather_data.py                   # 날씨 데이터 검증 스크립트  

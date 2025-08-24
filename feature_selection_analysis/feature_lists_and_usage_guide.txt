@@ -1,0 +1,109 @@
+ML-READY DATASETS - FEATURE LISTS AND USAGE GUIDE
+============================================================
+
+IMPORTANT: DATA LEAKAGE PREVENTION
+----------------------------------------
+1. Use PatientId for train/validation/test split
+2. NEVER split randomly - same patient should not appear in both train and test
+3. Recommended split: 70% patients for train, 15% for val, 15% for test
+4. Data is already sorted by PatientId and time for time series analysis
+
+TIME SERIES CONSIDERATIONS
+----------------------------------------
+- Each patient has multiple appointments over time
+- Patient history features already incorporate temporal information
+- For time series prediction, use patient_appointment_count as sequence position
+
+ALL FEATURES DATASET (43 features + IDs + target):
+----------------------------------------
+Essential columns: PatientId, AppointmentID, No-show
+  1. PatientId
+  2. AppointmentID
+  3. Registration_Month
+  4. Registration_Day
+  5. Registration_Weekday
+  6. Registration_Hour
+  7. Registration_Shift
+  8. Appointment_Month
+  9. Appointment_Day
+ 10. Appointment_Weekday
+ 11. Gender_F
+ 12. Age
+ 13. Scholarship
+ 14. Hipertension
+ 15. Diabetes
+ 16. Alcoholism
+ 17. Handcap
+ 18. SMS_received
+ 19. lead_time
+ 20. is_same_day
+ 21. patient_previous_noshow_count
+ 22. patient_appointment_count
+ 23. patient_previous_noshow_rate
+ 24. days_since_last_appointment
+ 25. time_between_appointments_avg
+ 26. appointment_regularity
+ 27. temp_avg
+ 28. temp_max
+ 29. temp_min
+ 30. rain_max
+ 31. hum_max
+ 32. hum_min
+ 33. wind_avg
+ 34. rad_max
+ 35. temp_range
+ 36. is_rainy
+ 37. is_hot
+ 38. is_windy
+ 39. temp_change
+ 40. temp_change_abs
+ 41. month
+ 42. neighbourhood_cluster_encoded
+ 43. season_encoded
+
+SELECTED FEATURES DATASET (24 features + IDs + target):
+----------------------------------------
+Essential columns: PatientId, AppointmentID, No-show
+  1. lead_time
+  2. is_same_day
+  3. SMS_received
+  4. patient_previous_noshow_rate
+  5. patient_previous_noshow_count
+  6. Age
+  7. Registration_Hour
+  8. Registration_Month
+  9. Registration_Day
+ 10. Registration_Shift
+ 11. Hipertension
+ 12. Scholarship
+ 13. days_since_last_appointment
+ 14. patient_appointment_count
+ 15. time_between_appointments_avg
+ 16. season_encoded
+ 17. neighbourhood_cluster_encoded
+ 18. appointment_regularity
+ 19. Diabetes
+ 20. temp_change
+ 21. rad_max
+ 22. temp_range
+ 23. Handcap
+ 24. temp_min
+
+ENCODING INFORMATION:
+----------------------------------------
+neighbourhood_cluster: {'cluster_0': np.int64(0), 'cluster_1': np.int64(1), 'cluster_2': np.int64(2), 'cluster_3': np.int64(3), 'cluster_4': np.int64(4), 'cluster_rare': np.int64(5)}
+season: {'autumn': 0, 'winter': 1}
+
+USAGE EXAMPLES:
+----------------------------------------
+# Patient-based train/test split
+unique_patients = df['PatientId'].unique()
+train_patients = unique_patients[:int(0.7*len(unique_patients))]
+test_patients = unique_patients[int(0.85*len(unique_patients)):]
+train_df = df[df['PatientId'].isin(train_patients)]
+test_df = df[df['PatientId'].isin(test_patients)]
+
+# For model training, exclude IDs from features
+feature_cols = [col for col in df.columns if col not in ['PatientId', 'AppointmentID', 'No-show']]
+X = df[feature_cols]
+y = df['No-show']
