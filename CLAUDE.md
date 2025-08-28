@@ -9,21 +9,24 @@
 ### 데이터셋 정보
 
 **final_dataset_with_weather_clusters.csv**: 108,296개의 예약 기록, 62,299명의 고유 환자
+
 - **노쇼 비율**: 20.11% (클래스 불균형)
 - **데이터 구조**: 환자별로 정렬된 시계열 데이터 (동일 환자의 여러 예약 포함)
 - **총 변수**: 54개 (날씨 변수 19개, 지역 클러스터 1개 추가)
 - **분석 기간**: 2016년 4월 29일 ~ 6월 8일 (41일간)
 
 **데이터셋 히스토리**:
+
 - `dataV05.csv`: 원본 병원 예약 데이터 (27개 변수)
-- `dataV05_with_all_features.csv`: 환자 이력 파생변수 추가 (33개 변수)  
+- `dataV05_with_all_features.csv`: 환자 이력 파생변수 추가 (33개 변수)
 - `final_dataset_with_weather_clusters.csv`: 날씨 데이터 + 지역 클러스터 통합 (54개 변수)
 
 ### 주요 변수 설명
 
 **기본 변수**:
+
 - `PatientId`: 환자 ID
-- `AppointmentID`: 예약 ID  
+- `AppointmentID`: 예약 ID
 - `Registration_Date`: 예약 등록 일시
 - `Appointment_Date`: 진료 예정일
 - `Gender_F`: 성별 (여성=1)
@@ -40,6 +43,7 @@
 - **`No-show`**: 타겟 변수 (노쇼=1, 출석=0)
 
 **환자 이력 기반 파생 변수** (시계열 특징):
+
 - `patient_previous_noshow_count`: 해당 시점까지 환자의 이전 노쇼 횟수 (0-10회)
 - `patient_appointment_count`: 해당 시점까지 환자의 총 예약 횟수 (0-75회)
 - `patient_previous_noshow_rate`: 해당 시점까지 환자의 노쇼 비율 (0.0-1.0)
@@ -48,18 +52,20 @@
 - `appointment_regularity`: 예약 간격의 표준편차/규칙성 (0-20)
 
 **지역 클러스터 변수** (차원 축소):
+
 - `neighbourhood_cluster`: 81개 지역을 6개 클러스터로 분류
   - `cluster_0`: 중장년층, 낮은 노쇼율 (18.7%)
-  - `cluster_1`: 젊은층, 높은 장학금 비율 (19.6%)  
+  - `cluster_1`: 젊은층, 높은 장학금 비율 (19.6%)
   - `cluster_2`: 높은 노쇼율 지역 (24.7%)
   - `cluster_3`: 중간 노쇼율 지역 (22.4%)
   - `cluster_4`: 중년층, 낮은 노쇼율 (19.4%)
   - `cluster_rare`: 데이터 부족 지역 (23.8%)
 
 **날씨 변수** (외생변수, 19개):
+
 - **기본 기상 데이터**: `temp_avg`, `temp_max`, `temp_min`, `rain_max`, `hum_max`, `hum_min`, `wind_avg`, `rad_max`
-- **파생 날씨 변수**: 
-  - `temp_range`: 일교차 
+- **파생 날씨 변수**:
+  - `temp_range`: 일교차
   - `temp_change`: 전날 대비 기온 변화
   - `is_rainy`: 비 온 날 (40.9%)
   - `is_hot`: 고온일 >30°C (78.0%)
@@ -73,27 +79,31 @@
 ### ML-Ready 데이터셋
 
 **Univariate Statistical Test 결과**:
+
 - **전체 46개 변수** 중 4개 상수 변수 제거 후 42개 변수 분석
 - **24개 변수 선택** (57.1% 선택률, p-value < 0.05)
 - ANOVA F-test (연속형), Chi-square test (범주형/이진형) 적용
 
 **선택된 주요 변수**:
+
 1. **예약 타이밍 (6개)**: lead_time, is_same_day, Registration_Hour/Month/Day/Shift
-2. **환자 이력 (6개)**: 모든 patient_* 시계열 변수들 
+2. **환자 이력 (6개)**: 모든 patient\_\* 시계열 변수들
 3. **의료 상태 (3개)**: Hipertension, Diabetes, Handcap
 4. **환자 정보 (2개)**: Age, Scholarship
 5. **시스템 (1개)**: SMS_received
 6. **지역 (1개)**: neighbourhood_cluster_encoded
-7. **날씨 (4개)**: temp_change, rad_max, temp_range, temp_min  
+7. **날씨 (4개)**: temp_change, rad_max, temp_range, temp_min
 8. **시간 (1개)**: season_encoded
 
 **ML-Ready 데이터셋**:
+
 - `feature_selection_analysis/ml_dataset_all_features.csv`: 108,296 × 44 (전체 43개 feature)
 - `feature_selection_analysis/ml_dataset_selected_features.csv`: 108,296 × 27 (선택된 24개 feature)
 - 모든 categorical 변수 수치화 완료 (neighbourhood_cluster, season 인코딩)
 - **PatientId, AppointmentID 포함** (시계열 분석, data leakage 방지용)
 
 **중요 사항**:
+
 - **Data Leakage 방지**: 환자별 train/test split 필수 (동일 환자가 train/test에 동시 포함 금지)
 - **시계열 특성**: 데이터는 PatientId와 시간순으로 정렬됨
 - 사용법과 주의사항은 `feature_selection_analysis/feature_lists_and_usage_guide.txt` 참조
@@ -156,16 +166,19 @@ pip install -r requirements.txt
 1. **메인 진입점** (`main.py`): 전체 파이프라인 조정 - 데이터 로딩, 전처리, 모델 학습, 평가
 
 2. **데이터 처리 파이프라인** (`models/data/`):
+
    - `preprocessing.py`: 데이터 로딩, 특징 공학, train/val/test 분할
    - `scaler.py`: 수치형 특징을 위한 커스텀 표준 스케일러
    - `dataset.py`: 효율적인 배치 로딩을 위한 PyTorch Dataset 래퍼
 
 3. **모델 구현** (`models/models/`):
+
    - MLP, Wide&Deep, DeepFM, FT-Transformer, TabNet 각각 독립 모듈
    - 모든 모델은 `nn.Module` 상속, 일관된 forward() 인터페이스
    - 임베딩을 통한 수치형 및 범주형 특징 처리
 
 4. **학습 프레임워크** (`models/training/`):
+
    - `trainer.py`: validation AUC-PR 기반 조기 종료 포함 학습 루프
    - `metrics.py`: 종합 평가 지표 (Accuracy, Recall, F1, ROC-AUC, AUC-PR)
    - `utils.py`: 모델 포워딩 및 임계값 최적화 헬퍼 함수
@@ -189,7 +202,7 @@ pip install -r requirements.txt
 ## 중요 사항
 
 - 노쇼 예측의 클래스 불균형을 pos_weight로 처리
-- 모든 모델은 동일한 train/val/test 분할 (60/20/20) 및 층화 샘플링 사용  
+- 모든 모델은 동일한 train/val/test 분할 (60/20/20) 및 층화 샘플링 사용
 - 클래스 불균형으로 인해 다양한 지표로 성능 평가 (특히 AUC-PR 중요)
 - CPU와 CUDA 실행 모두 지원, 자동 장치 감지
 
@@ -205,13 +218,15 @@ pip install -r requirements.txt
 ## 주요 발견사항
 
 **Feature Selection 결과**:
-- **최고 예측력**: lead_time (F=3861.8), is_same_day (χ²=5706.6), SMS_received (χ²=1232.4)  
-- **환자 이력**: 모든 patient_* 변수들이 통계적 유의성 확보 (p<0.001)
+
+- **최고 예측력**: lead_time (F=3861.8), is_same_day (χ²=5706.6), SMS_received (χ²=1232.4)
+- **환자 이력**: 모든 patient\_\* 변수들이 통계적 유의성 확보 (p<0.001)
 - **날씨 변수**: 19개 중 4개만 선택 (temp_change, rad_max, temp_range, temp_min)
 
 **데이터 특성**:
+
 - **날씨 영향**: 비오는 날 노쇼율 0.55%p 감소, 고온일 0.81%p 증가
-- **지역 클러스터**: 최대 6.0%p 노쇼율 차이 (cluster_0 vs cluster_2)  
+- **지역 클러스터**: 최대 6.0%p 노쇼율 차이 (cluster_0 vs cluster_2)
 - **계절성**: 가을 75.9%, 겨울 24.1% 분포 (브라질 남반구 특성)
 
 ## 프로젝트 파일 구조
@@ -220,14 +235,14 @@ pip install -r requirements.txt
 ├── final_dataset_with_weather_clusters.csv    # 최종 통합 데이터셋 (54개 변수)
 ├── feature_selection_analysis/                # Feature Selection 분석 결과
 │   ├── ml_dataset_all_features.csv           # ML용 전체 데이터셋 (108,296×44)
-│   ├── ml_dataset_selected_features.csv      # ML용 선택 데이터셋 (108,296×27)  
+│   ├── ml_dataset_selected_features.csv      # ML용 선택 데이터셋 (108,296×27)
 │   ├── feature_lists_and_usage_guide.txt     # 사용법, Data leakage 방지 가이드
 │   ├── univariate_test_results_all_features.csv # 통계분석 상세 결과
 │   ├── univariate_feature_selection.py       # Feature selection 분석 스크립트
 │   └── create_ml_ready_dataset.py            # ML 데이터셋 생성 스크립트
 ├── neighbourhood_clustering_methodology.md     # 지역 클러스터링 방법론 문서
 ├── analyse_neighbourhood.py                   # 지역 분석 스크립트
-├── validate_weather_data.py                   # 날씨 데이터 검증 스크립트  
+├── validate_weather_data.py                   # 날씨 데이터 검증 스크립트
 ├── create_final_dataset.py                    # 최종 데이터셋 생성 스크립트
 ├── neighbourhood_clusters.json                # 지역-클러스터 매핑 파일
 └── weather_sum_2015.csv, weather_sum_2016.csv # 브라질 기상청 날씨 데이터
