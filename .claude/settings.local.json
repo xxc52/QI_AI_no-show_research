@@ -7,7 +7,9 @@
       "Bash(mv:*)",
       "Bash(git add:*)",
       "Bash(rm:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(del /Q *.py *.md *.csv)",
+      "Bash(Remove-Item \"E:\\research\\QI_AI_no-show_research\\data\\*.py\" -Force)"
     ],
     "deny": [],
     "ask": []
