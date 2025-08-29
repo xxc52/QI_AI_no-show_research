@@ -108,6 +108,29 @@
 - **시계열 특성**: 데이터는 PatientId와 시간순으로 정렬됨
 - 사용법과 주의사항은 `feature_selection_analysis/feature_lists_and_usage_guide.txt` 참조
 
+## 데이터 분할 (Data Splitting)
+
+### Temporal Split 방식 (현재 방식)
+
+**위치**: `data/` 폴더
+**방법**: 시간 기반 8:1:1 순차 분할
+
+```bash
+# Temporal split 실행
+cd data
+python split_dataset_temporal.py
+```
+
+**분할 결과**:
+- `train.csv`: 86,636개 (80%) - 2016-04-29 ~ 2016-06-02 (34일)
+- `val.csv`: 10,829개 (10%) - 2016-06-02 ~ 2016-06-06 (4일) 
+- `test.csv`: 10,831개 (10%) - 2016-06-06 ~ 2016-06-08 (2일)
+
+**특징**:
+- **현실적**: 과거 데이터로 훈련 → 미래 데이터 예측 (실제 배포 시나리오)
+- **단순함**: 복잡한 환자별 규칙 없이 시간순 분할
+- **시간적 무결성**: Training < Validation < Test 순서 보장
+
 ## 주요 명령어
 
 ### Feature Selection 실행
@@ -121,27 +144,20 @@ python univariate_feature_selection.py
 python create_ml_ready_dataset.py
 ```
 
-### 모델 실행
+### 모델 실행 (시간 분할 데이터 사용)
 
 ```bash
-# 최종 데이터셋으로 모든 모델 실행 (날씨 + 클러스터 포함)
-python main.py --csv final_dataset_with_weather_clusters.csv
+# Temporal split 데이터로 모델 실행 (권장)
+python main.py --csv data/train.csv --val_csv data/val.csv --test_csv data/test.csv --models mlp
 
-# 특정 모델만 실행
-python main.py --csv final_dataset_with_weather_clusters.csv --models mlp,wide_deep,deepfm,ftt
+# 또는 기존 방식 (전체 데이터셋으로 실행)
+python main.py --csv final_dataset_with_weather_clusters.csv --models mlp
 
 # 하이퍼파라미터 조정
-python main.py --csv final_dataset_with_weather_clusters.csv --models deepfm --epochs 100 --batch_size 2048 --lr 1e-3 --patience 10
-
-# 빠른 테스트 (적은 에포크)
-python main.py --csv final_dataset_with_weather_clusters.csv --epochs 20 --batch_size 2048 --models mlp
-
-# ML-ready 데이터셋으로 모델 실행 (권장)
-python main.py --csv feature_selection_analysis/ml_dataset_selected_features.csv --models mlp
-
-# 기존 데이터셋 비교 분석용
-python main.py --csv dataV05_with_all_features.csv --models mlp  # 날씨/클러스터 제외
+python main.py --csv data/train.csv --val_csv data/val.csv --models deepfm --epochs 100 --batch_size 2048 --lr 1e-3 --patience 10
 ```
+
+**⚠️ 참고**: 실제 모델링 파이프라인에서는 `train.csv`와 `val.csv`를 결합하여 **TimeSeriesSplit**을 사용할 예정입니다. 이는 시계열 데이터의 특성을 더 잘 활용하기 위함입니다.
 
 ### 가상환경 설정
 
@@ -212,7 +228,7 @@ pip install -r requirements.txt
 2. **지리적 클러스터링**: 81개 지역을 노쇼 패턴 기반 6개 클러스터로 차원 축소
 3. **외생변수 통합**: 19개 날씨 변수로 환경적 요인이 노쇼에 미치는 영향 분석
 4. **통계적 특징 선택**: Univariate statistical test로 46→24개 변수 선별 (57.1% 선택률)
-5. **Data Leakage 방지**: 환자별 분할을 통한 시계열 데이터 누수 방지 체계 구축
+5. **현실적 데이터 분할**: 시간 기반 순차 분할로 실제 배포 시나리오 반영
 6. **다중 모델 비교**: MLP, Wide&Deep, DeepFM, FT-Transformer, TabNet 성능 벤치마킹
 
 ## 주요 발견사항
@@ -233,6 +249,13 @@ pip install -r requirements.txt
 
 ```
 ├── final_dataset_with_weather_clusters.csv    # 최종 통합 데이터셋 (54개 변수)
+├── data/                                      # 데이터 분할 결과
+│   ├── split_dataset_temporal.py             # Temporal split 구현
+│   ├── train.csv                             # 훈련 데이터 (80%, 34일간)
+│   ├── val.csv                               # 검증 데이터 (10%, 4일간)
+│   ├── test.csv                              # 테스트 데이터 (10%, 2일간)
+│   ├── temporal_split_analysis.png           # 시각화 결과
+│   └── temporal_split_report.md              # 분할 방법론 보고서
 ├── feature_selection_analysis/                # Feature Selection 분석 결과
 │   ├── ml_dataset_all_features.csv           # ML용 전체 데이터셋 (108,296×44)
 │   ├── ml_dataset_selected_features.csv      # ML용 선택 데이터셋 (108,296×27)

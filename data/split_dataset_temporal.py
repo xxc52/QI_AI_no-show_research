@@ -21,12 +21,29 @@ warnings.filterwarnings('ignore')
 
 def load_and_prepare_data():
     """
-    Load the final dataset and prepare for temporal splitting.
+    Load the ML-ready dataset and join with appointment dates for temporal splitting.
     """
-    print("Loading dataset...")
-    df = pd.read_csv('../final_dataset_with_weather_clusters.csv')
+    print("Loading ML-ready dataset...")
+    # Load the feature-selected ML dataset
+    ml_df = pd.read_csv('../feature_selection_analysis/ml_dataset_selected_features.csv')
+    print(f"ML dataset loaded: {len(ml_df):,} records, {len(ml_df.columns)} columns")
     
-    print(f"Dataset loaded: {len(df):,} records, {len(df.columns)} columns")
+    print("Loading full dataset for Appointment_Date...")
+    # Load full dataset to get Appointment_Date
+    full_df = pd.read_csv('../final_dataset_with_weather_clusters.csv')
+    date_df = full_df[['AppointmentID', 'Appointment_Date']].copy()
+    
+    print("Joining ML dataset with Appointment_Date...")
+    # Join ML dataset with appointment dates
+    df = ml_df.merge(date_df, on='AppointmentID', how='left')
+    
+    # Check for any missing dates
+    missing_dates = df['Appointment_Date'].isnull().sum()
+    if missing_dates > 0:
+        print(f"Warning: {missing_dates} records missing Appointment_Date")
+        df = df.dropna(subset=['Appointment_Date'])
+    
+    print(f"Final dataset: {len(df):,} records, {len(df.columns)} columns")
     print(f"Date range in data: {df['Appointment_Date'].min()} to {df['Appointment_Date'].max()}")
     
     # Convert Appointment_Date to datetime
@@ -38,6 +55,7 @@ def load_and_prepare_data():
     print(f"Data sorted by Appointment_Date")
     print(f"Unique patients: {df['PatientId'].nunique():,}")
     print(f"Overall no-show rate: {df['No-show'].mean():.2%}")
+    print(f"Selected features: {len(df.columns) - 3} (excluding PatientId, AppointmentID, Appointment_Date)")
     
     return df
 

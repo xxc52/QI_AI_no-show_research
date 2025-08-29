@@ -1,6 +1,6 @@
 # Hospital No-Show Dataset Temporal Split Report
 
-Generated: 2025-08-29 12:14:01
+Generated: 2025-08-29 12:26:36
 
 ## Methodology
 
@@ -9,6 +9,8 @@ Generated: 2025-08-29 12:14:01
 This implementation uses a **simple temporal splitting strategy** that better reflects real-world deployment scenarios:
 
 1. **Data Preparation**: 
+   - Load ML-ready dataset with selected features (`ml_dataset_selected_features.csv`)
+   - Join with `Appointment_Date` from full dataset for temporal sorting
    - Sort all records by `Appointment_Date` in ascending order
    - Ensure temporal continuity in the dataset
 
@@ -51,6 +53,7 @@ This implementation uses a **simple temporal splitting strategy** that better re
 - **Test Period**: 2016-06-06 to 2016-06-08 (2 days)
 
 #### Data Characteristics
+- **Feature Set**: 24 selected features + target variable (from univariate statistical test)
 - **No-Show Rate Variation**: 17.9% - 20.5%
 - **Patient Overlap**: Expected overlap due to multiple appointments across time periods
 - **Temporal Integrity**: Training < Validation < Test (chronological order maintained)
@@ -63,11 +66,13 @@ This implementation uses a **simple temporal splitting strategy** that better re
 
 ## Files Generated
 
-- `train.csv`: Training dataset (86,636 records)
-- `val.csv`: Validation dataset (10,829 records) 
-- `test.csv`: Test dataset (10,831 records)
+- `train.csv`: Training dataset (86,636 records, 25 features)
+- `val.csv`: Validation dataset (10,829 records, 25 features) 
+- `test.csv`: Test dataset (10,831 records, 25 features)
 - `temporal_split_analysis.png`: Visualization of split distributions
 - `temporal_split_report.md`: This report
+
+**Note**: All CSV files contain the 24 selected features from feature selection analysis plus the target variable (`No-show`).
 
 ## Implementation Notes
 
