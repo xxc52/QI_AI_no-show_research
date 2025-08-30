@@ -1,0 +1,53 @@
+{
+  "model_type": "randomforest",
+  "parameters": {
+    "n_estimators": 500,
+    "max_depth": 30,
+    "min_samples_split": 13,
+    "min_samples_leaf": 10,
+    "max_features": 0.7,
+    "criterion": "entropy",
+    "class_weight": "balanced"
+  },
+  "metrics": {
+    "accuracy": 0.7320653679253993,
+    "precision": 0.32848011363636365,
+    "recall": 0.4777892561983471,
+    "specificity": 0.7874086565486228,
+    "f1": 0.38930976430976433,
+    "f2": 0.43797348484848486,
+    "mcc": 0.23164752569909783,
+    "cohen_kappa": 0.22516250318005315,
+    "balanced_accuracy": 0.632598956373485,
+    "g_mean": 0.6133639998699845,
+    "roc_auc": 0.7369643081125528,
+    "pr_auc": 0.3488846730520423,
+    "brier_score": 0.16579318660064277,
+    "log_loss": 0.49289169497795415,
+    "optimal_threshold": 0.2699999999999999,
+    "best_f2_score": 0.6109194235843312,
+    "youdens_j": 0.36504588658313936,
+    "precision_at_10": 0.37765466297322253,
+    "recall_at_10": 0.2112603305785124,
+    "precision_at_20": 0.34395198522622344,
+    "recall_at_20": 0.38481404958677684,
+    "precision_at_30": 0.3250230840258541,
+    "recall_at_30": 0.5454545454545454,
+    "confusion_matrix": [
+      [
+        7004,
+        1891
+      ],
+      [
+        1011,
+        925
+      ]
+    ],
+    "train_time": 13.87578579998808,
+    "pred_time_total": 0.14854594999924303,
+    "pred_time_ms": 0.013714887821922539,
+    "pred_time_std_ms": 0.0005628760508950798,
+    "n_test_samples": 10831
+  },
+  "timestamp": "20250830_132340"
+}

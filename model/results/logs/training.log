@@ -1,0 +1,638 @@
+2025-08-30 13:22:21,406 - __main__ - INFO - Pipeline initialized for randomforest model
+2025-08-30 13:22:21,406 - __main__ - INFO - ======================================================================
+2025-08-30 13:22:21,406 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 13:22:21,406 - __main__ - INFO - ======================================================================
+2025-08-30 13:22:21,406 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 13:22:21,406 - data.loader - INFO - Loading temporal split data...
+2025-08-30 13:22:21,598 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 13:22:21,639 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 13:22:21,667 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 13:22:21,667 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 13:22:21,667 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 13:22:21,667 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:22:21,680 - utils.timer - INFO - Data Loading took 0.2740 seconds
+2025-08-30 13:22:21,680 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 13:22:21,681 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:22:21,681 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (5 trials)...
+2025-08-30 13:22:21,681 - training.optimizer - INFO - Starting Optuna optimization for 5 trials
+2025-08-30 13:22:21,681 - training.optimizer - INFO - Optimizing pr_auc with 5-fold TimeSeriesSplit
+2025-08-30 13:22:21,685 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:22:21,685 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:22:21,687 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:22,362 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:22,451 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:22:22,464 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:23,624 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:23,716 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:22:23,735 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:25,842 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:25,936 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:22:25,960 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:28,788 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:28,889 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:22:28,919 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:33,135 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:33,230 - training.optimizer - INFO - Trial 0/5 | pr_auc: 0.3767 ¡¾ 0.0133
+2025-08-30 13:22:33,262 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:22:33,263 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:22:33,263 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:22:33,969 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:34,026 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:22:34,034 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:22:35,151 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:35,211 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:22:35,219 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:22:36,744 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:36,804 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:22:36,812 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:22:38,823 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:38,881 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:22:38,893 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:22:41,330 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:41,395 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:22:41,395 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:22:41,395 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:42,176 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:42,230 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:22:42,244 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:43,552 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:43,619 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:22:43,626 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:45,480 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:45,539 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:22:45,548 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:48,037 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:48,130 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:22:48,138 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:51,523 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:51,595 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:22:51,595 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:22:51,603 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:51,971 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:52,033 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:22:52,035 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:52,525 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:52,585 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:22:52,585 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:53,272 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:53,334 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:22:53,341 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:54,178 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:54,255 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:22:54,256 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:22:55,385 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:55,467 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:22:55,467 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:22:55,473 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:22:56,880 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:22:57,037 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:22:57,042 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:23:00,461 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:23:00,615 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:23:00,633 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:23:05,328 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:23:05,484 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:23:05,500 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:23:13,003 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:23:13,215 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:23:13,270 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:23:24,313 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:23:24,532 - training.optimizer - INFO - Optimization completed in 62.85 seconds
+2025-08-30 13:23:24,532 - training.optimizer - INFO - Best pr_auc: 0.3795
+2025-08-30 13:23:24,532 - training.optimizer - INFO - Best parameters: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'criterion': 'entropy', 'class_weight': 'balanced'}
+2025-08-30 13:23:24,551 - __main__ - INFO - Trial history saved to randomforest_trials.csv
+2025-08-30 13:23:24,551 - utils.timer - INFO - Hyperparameter Optimization took 62.8775 seconds
+2025-08-30 13:23:24,551 - __main__ - INFO - 
+[Step 3/5] Training Final Model...
+2025-08-30 13:23:24,551 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:23:38,432 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:23:38,432 - utils.timer - INFO - Training completed in 13.8758 seconds
+2025-08-30 13:23:38,502 - __main__ - INFO - 
+Top 10 Important Features:
+2025-08-30 13:23:38,514 - __main__ - INFO - 
+[Step 4/5] Evaluating on Test Set...
+2025-08-30 13:23:38,815 - utils.timer - INFO - Prediction took 0.3017 seconds
+2025-08-30 13:23:40,443 - utils.timer - INFO - Prediction time: 0.1485s total, 0.0137ms per sample
+2025-08-30 13:23:40,708 - __main__ - INFO - 
+[Step 5/5] Saving Results...
+2025-08-30 13:23:42,028 - models.random_forest - INFO - Model saved to E:\research\QI_AI_no-show_research\model\results\models\randomforest_20250830_132340.pkl
+2025-08-30 13:23:42,029 - __main__ - INFO - Results saved to E:\research\QI_AI_no-show_research\model\results
+2025-08-30 13:23:42,085 - __main__ - INFO - 
+Pipeline completed successfully!
+2025-08-30 13:26:51,645 - __main__ - INFO - Pipeline initialized for randomforest model
+2025-08-30 13:26:51,645 - __main__ - INFO - ======================================================================
+2025-08-30 13:26:51,645 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 13:26:51,645 - __main__ - INFO - ======================================================================
+2025-08-30 13:26:51,661 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 13:26:51,661 - data.loader - INFO - Loading temporal split data...
+2025-08-30 13:26:51,877 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 13:26:51,911 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 13:26:51,940 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 13:26:51,940 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 13:26:51,949 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 13:26:51,950 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:26:51,952 - utils.timer - INFO - Data Loading took 0.2909 seconds
+2025-08-30 13:26:51,952 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 13:26:51,953 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:26:51,953 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (100 trials)...
+2025-08-30 13:26:51,953 - training.optimizer - INFO - Starting Optuna optimization for 100 trials
+2025-08-30 13:26:51,953 - training.optimizer - INFO - Optimizing pr_auc with 5-fold TimeSeriesSplit
+2025-08-30 13:26:51,954 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:26:51,954 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:26:51,958 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:26:52,566 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:26:52,645 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:26:52,645 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:26:53,721 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:26:53,805 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:26:53,805 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:26:55,666 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:26:55,746 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:26:55,764 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:26:58,520 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:26:58,616 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:26:58,643 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 30, 'min_samples_split': 15, 'min_samples_leaf': 6, 'max_features': 0.5, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:02,316 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:02,418 - training.optimizer - INFO - Trial 0/100 | pr_auc: 0.3767 ¡¾ 0.0133
+2025-08-30 13:27:02,440 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:27:02,440 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:27:02,446 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:27:03,046 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:03,100 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:27:03,108 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:27:04,057 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:04,108 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:27:04,108 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:27:05,455 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:05,505 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:27:05,505 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:27:07,330 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:07,381 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:27:07,385 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 4, 'max_features': 0.5, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:27:09,773 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:09,823 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:27:09,823 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:27:09,823 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:10,533 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:10,584 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:27:10,594 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:11,939 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:11,991 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:27:12,006 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:14,157 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:14,216 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:27:14,229 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:16,718 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:16,779 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:27:16,801 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 150, 'max_depth': 20, 'min_samples_split': 13, 'min_samples_leaf': 1, 'max_features': 0.7, 'class_weight': 'balanced_subsample', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:20,115 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:20,225 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:27:20,225 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:27:20,225 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:20,627 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:20,697 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:27:20,697 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:21,262 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:21,320 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:27:21,320 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:22,076 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:22,139 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:27:22,139 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:23,155 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:23,238 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:27:23,238 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 250, 'max_depth': 5, 'min_samples_split': 11, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'gini'}
+2025-08-30 13:27:24,395 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:24,486 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:27:24,486 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:27:24,489 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:27:26,040 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:27:26,194 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:27:26,194 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 500, 'max_depth': 30, 'min_samples_split': 13, 'min_samples_leaf': 10, 'max_features': 0.7, 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0, 'criterion': 'entropy'}
+2025-08-30 13:27:28,750 - utils.timer - INFO - Hyperparameter Optimization took 36.7989 seconds
+2025-08-30 13:43:11,550 - __main__ - INFO - Pipeline initialized for randomforest model
+2025-08-30 13:43:11,550 - __main__ - INFO - ======================================================================
+2025-08-30 13:43:11,550 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 13:43:11,550 - __main__ - INFO - ======================================================================
+2025-08-30 13:43:11,550 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 13:43:11,550 - data.loader - INFO - Loading temporal split data...
+2025-08-30 13:43:11,717 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 13:43:11,744 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 13:43:11,777 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 13:43:11,779 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 13:43:11,782 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 13:43:11,782 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:43:11,786 - utils.timer - INFO - Data Loading took 0.2286 seconds
+2025-08-30 13:43:11,786 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 13:43:11,786 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:43:11,786 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (3 trials)...
+2025-08-30 13:43:11,786 - training.optimizer - INFO - Starting Optuna optimization for 3 trials
+2025-08-30 13:43:11,786 - training.optimizer - INFO - Optimizing pr_auc with 5-fold TimeSeriesSplit
+2025-08-30 13:43:11,788 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:43:11,788 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:43:11,790 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 15, 'min_samples_split': 20, 'min_samples_leaf': 8, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:13,348 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:13,546 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:43:13,556 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 15, 'min_samples_split': 20, 'min_samples_leaf': 8, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:15,977 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:16,227 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:43:16,248 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 15, 'min_samples_split': 20, 'min_samples_leaf': 8, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:19,680 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:19,930 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:43:19,958 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 15, 'min_samples_split': 20, 'min_samples_leaf': 8, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:25,067 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:25,393 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:43:25,427 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 15, 'min_samples_split': 20, 'min_samples_leaf': 8, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:32,404 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:32,764 - training.optimizer - INFO - Trial 0/3 | pr_auc: 0.3828 ¡¾ 0.0138
+2025-08-30 13:43:32,793 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:43:32,793 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:43:32,793 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 20, 'min_samples_split': 4, 'min_samples_leaf': 2, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:35,112 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:35,450 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:43:35,475 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 20, 'min_samples_split': 4, 'min_samples_leaf': 2, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:38,949 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:39,322 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:43:39,410 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 20, 'min_samples_split': 4, 'min_samples_leaf': 2, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:44,353 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:44,690 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:43:44,736 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 20, 'min_samples_split': 4, 'min_samples_leaf': 2, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:51,335 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:51,706 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:43:51,766 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 20, 'min_samples_split': 4, 'min_samples_leaf': 2, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:43:59,008 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:43:59,590 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:43:59,590 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:43:59,592 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 5, 'min_samples_split': 18, 'min_samples_leaf': 7, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:44:01,358 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:44:01,612 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:44:01,617 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 5, 'min_samples_split': 18, 'min_samples_leaf': 7, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:44:03,864 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:44:04,093 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:44:04,098 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 5, 'min_samples_split': 18, 'min_samples_leaf': 7, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:44:07,117 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:44:07,334 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:44:07,343 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 5, 'min_samples_split': 18, 'min_samples_leaf': 7, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:44:11,227 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:44:11,421 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:44:11,433 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 5, 'min_samples_split': 18, 'min_samples_leaf': 7, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:44:16,224 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:44:16,437 - training.optimizer - INFO - Optimization completed in 64.65 seconds
+2025-08-30 13:44:16,437 - training.optimizer - INFO - Best pr_auc: 0.3828
+2025-08-30 13:44:16,437 - training.optimizer - INFO - Best parameters: {'max_depth': 15, 'min_samples_split': 20, 'min_samples_leaf': 8}
+2025-08-30 13:44:16,437 - __main__ - INFO - Trial history saved to randomforest_trials.csv
+2025-08-30 13:44:16,437 - utils.timer - INFO - Hyperparameter Optimization took 64.6632 seconds
+2025-08-30 13:44:16,437 - __main__ - INFO - 
+[Step 3/5] Training Final Model...
+2025-08-30 13:44:16,437 - models.random_forest - INFO - Training RandomForest with params: {'n_estimators': 1000, 'max_depth': 15, 'min_samples_split': 20, 'min_samples_leaf': 8, 'max_features': 'sqrt', 'criterion': 'gini', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': 0}
+2025-08-30 13:44:23,948 - models.random_forest - INFO - RandomForest training completed
+2025-08-30 13:44:23,948 - utils.timer - INFO - Training completed in 7.4983 seconds
+2025-08-30 13:44:24,066 - __main__ - INFO - 
+Top 10 Important Features:
+2025-08-30 13:44:24,066 - __main__ - INFO - 
+[Step 4/5] Evaluating on Test Set...
+2025-08-30 13:44:24,620 - utils.timer - INFO - Prediction took 0.5503 seconds
+2025-08-30 13:44:27,796 - utils.timer - INFO - Prediction time: 0.2898s total, 0.0268ms per sample
+2025-08-30 13:44:28,069 - __main__ - INFO - 
+[Step 5/5] Saving Results...
+2025-08-30 13:44:29,741 - models.random_forest - INFO - Model saved to E:\research\QI_AI_no-show_research\model\results\models\randomforest_20250830_134428.pkl
+2025-08-30 13:44:29,743 - __main__ - INFO - Results saved to E:\research\QI_AI_no-show_research\model\results
+2025-08-30 13:44:29,844 - __main__ - INFO - 
+Pipeline completed successfully!
+2025-08-30 13:44:36,583 - __main__ - INFO - Pipeline initialized for lightgbm model
+2025-08-30 13:44:36,583 - __main__ - INFO - ======================================================================
+2025-08-30 13:44:36,583 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 13:44:36,583 - __main__ - INFO - ======================================================================
+2025-08-30 13:44:36,583 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 13:44:36,583 - data.loader - INFO - Loading temporal split data...
+2025-08-30 13:44:36,742 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 13:44:36,788 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 13:44:36,807 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 13:44:36,807 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 13:44:36,807 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 13:44:36,807 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:44:36,807 - utils.timer - INFO - Data Loading took 0.2357 seconds
+2025-08-30 13:44:36,807 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 13:44:36,807 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:44:36,807 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (3 trials)...
+2025-08-30 13:44:36,807 - utils.timer - INFO - Hyperparameter Optimization took 0.0000 seconds
+2025-08-30 13:44:48,906 - __main__ - INFO - Pipeline initialized for lightgbm model
+2025-08-30 13:44:48,906 - __main__ - INFO - ======================================================================
+2025-08-30 13:44:48,906 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 13:44:48,906 - __main__ - INFO - ======================================================================
+2025-08-30 13:44:48,906 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 13:44:48,906 - data.loader - INFO - Loading temporal split data...
+2025-08-30 13:44:49,072 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 13:44:49,114 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 13:44:49,131 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 13:44:49,131 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 13:44:49,147 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 13:44:49,147 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:44:49,147 - utils.timer - INFO - Data Loading took 0.2429 seconds
+2025-08-30 13:44:49,147 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 13:44:49,147 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 13:44:49,147 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (3 trials)...
+2025-08-30 13:44:49,147 - training.optimizer - INFO - Starting Optuna optimization for 3 trials
+2025-08-30 13:44:49,147 - training.optimizer - INFO - Optimizing pr_auc with 5-fold TimeSeriesSplit
+2025-08-30 13:44:49,147 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:44:49,147 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:44:49,153 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 7, 'num_leaves': 97, 'min_child_samples': 40, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:44:52,338 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:44:52,551 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:44:52,559 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 7, 'num_leaves': 97, 'min_child_samples': 40, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:44:58,381 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:44:58,639 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:44:58,645 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 7, 'num_leaves': 97, 'min_child_samples': 40, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:05,530 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:05,772 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:45:05,780 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 7, 'num_leaves': 97, 'min_child_samples': 40, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:13,430 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:13,720 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:45:13,734 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 7, 'num_leaves': 97, 'min_child_samples': 40, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:22,756 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:23,025 - training.optimizer - INFO - Trial 0/3 | pr_auc: 0.3350 ¡¾ 0.0090
+2025-08-30 13:45:23,027 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:45:23,027 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:45:23,037 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 10, 'num_leaves': 32, 'min_child_samples': 16, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:26,183 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:26,366 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:45:26,370 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 10, 'num_leaves': 32, 'min_child_samples': 16, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:30,246 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:30,417 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:45:30,423 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 10, 'num_leaves': 32, 'min_child_samples': 16, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:34,673 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:34,810 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:45:34,819 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 10, 'num_leaves': 32, 'min_child_samples': 16, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:40,491 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:40,654 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:45:40,673 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 10, 'num_leaves': 32, 'min_child_samples': 16, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:45,928 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:46,077 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 13:45:46,077 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 13:45:46,084 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 3, 'num_leaves': 90, 'min_child_samples': 34, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:47,182 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:47,295 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 13:45:47,301 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 3, 'num_leaves': 90, 'min_child_samples': 34, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:48,871 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:48,973 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 13:45:48,997 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 3, 'num_leaves': 90, 'min_child_samples': 34, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:50,993 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:51,095 - training.validator - INFO - Fold 4: Train=64977, Val=16244
+2025-08-30 13:45:51,102 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 3, 'num_leaves': 90, 'min_child_samples': 34, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:53,780 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:53,875 - training.validator - INFO - Fold 5: Train=81221, Val=16244
+2025-08-30 13:45:53,903 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 3, 'num_leaves': 90, 'min_child_samples': 34, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:45:56,866 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:45:56,966 - training.optimizer - INFO - Optimization completed in 67.82 seconds
+2025-08-30 13:45:56,966 - training.optimizer - INFO - Best pr_auc: 0.3607
+2025-08-30 13:45:56,968 - training.optimizer - INFO - Best parameters: {'max_depth': 3, 'num_leaves': 90, 'min_child_samples': 34}
+2025-08-30 13:45:56,975 - __main__ - INFO - Trial history saved to lightgbm_trials.csv
+2025-08-30 13:45:56,975 - utils.timer - INFO - Hyperparameter Optimization took 67.8253 seconds
+2025-08-30 13:45:56,975 - __main__ - INFO - 
+[Step 3/5] Training Final Model...
+2025-08-30 13:45:56,975 - models.lightgbm_model - INFO - Training LightGBM with params: {'n_estimators': 1000, 'max_depth': 3, 'num_leaves': 90, 'min_child_samples': 34, 'learning_rate': 0.1, 'feature_fraction': 0.8, 'bagging_fraction': 0.8, 'bagging_freq': 5, 'objective': 'binary', 'metric': 'binary_logloss', 'class_weight': 'balanced', 'random_state': 42, 'n_jobs': -1, 'verbose': -1}
+2025-08-30 13:46:00,275 - models.lightgbm_model - INFO - LightGBM training completed
+2025-08-30 13:46:00,276 - utils.timer - INFO - Training completed in 3.3004 seconds
+2025-08-30 13:46:00,287 - __main__ - INFO - 
+Top 10 Important Features:
+2025-08-30 13:46:00,290 - __main__ - INFO - 
+[Step 4/5] Evaluating on Test Set...
+2025-08-30 13:46:00,441 - utils.timer - INFO - Prediction took 0.1512 seconds
+2025-08-30 13:46:01,183 - utils.timer - INFO - Prediction time: 0.0665s total, 0.0061ms per sample
+2025-08-30 13:46:01,514 - __main__ - INFO - 
+[Step 5/5] Saving Results...
+2025-08-30 13:46:01,558 - models.lightgbm_model - INFO - Model saved to E:\research\QI_AI_no-show_research\model\results\models\lightgbm_20250830_134601.pkl
+2025-08-30 13:46:01,560 - __main__ - INFO - Results saved to E:\research\QI_AI_no-show_research\model\results
+2025-08-30 13:46:01,565 - __main__ - INFO - 
+Pipeline completed successfully!
+2025-08-30 14:17:01,890 - __main__ - INFO - Pipeline initialized for mlp model
+2025-08-30 14:17:01,891 - __main__ - INFO - ======================================================================
+2025-08-30 14:17:01,891 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 14:17:01,891 - __main__ - INFO - ======================================================================
+2025-08-30 14:17:01,891 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 14:17:01,891 - data.loader - INFO - Loading temporal split data...
+2025-08-30 14:17:02,084 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 14:17:02,133 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 14:17:02,168 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 14:17:02,170 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 14:17:02,177 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 14:17:02,178 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 14:17:02,179 - utils.timer - INFO - Data Loading took 0.2896 seconds
+2025-08-30 14:17:02,179 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 14:17:02,179 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 14:17:02,179 - __main__ - INFO - 
+[Step 2/5] Skipping optimization, using default parameters
+2025-08-30 14:17:02,179 - __main__ - INFO - 
+[Step 3/5] Training Final Model...
+2025-08-30 14:17:02,179 - models.mlp_model - INFO - Training MLP with params: {'hidden_dims': [256, 128, 64], 'dropout_rate': 0.3, 'learning_rate': 0.001, 'batch_size': 512, 'epochs': 100, 'weight_decay': 0.0001}
+2025-08-30 14:17:02,179 - models.mlp_model - INFO - Device: cpu
+2025-08-30 14:17:02,239 - models.mlp_model - INFO - Class distribution: 77628 negatives, 19837 positives
+2025-08-30 14:17:02,239 - models.mlp_model - INFO - Positive weight: 3.9133
+2025-08-30 14:17:29,721 - models.mlp_model - INFO - Epoch 10: Train Loss = 0.9360
+2025-08-30 14:18:08,852 - models.mlp_model - INFO - Epoch 20: Train Loss = 0.9297
+2025-08-30 14:18:35,805 - models.mlp_model - INFO - Epoch 30: Train Loss = 0.9236
+2025-08-30 14:19:39,984 - __main__ - INFO - Pipeline initialized for mlp model
+2025-08-30 14:19:39,985 - __main__ - INFO - ======================================================================
+2025-08-30 14:19:39,985 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 14:19:39,985 - __main__ - INFO - ======================================================================
+2025-08-30 14:19:39,985 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 14:19:39,985 - data.loader - INFO - Loading temporal split data...
+2025-08-30 14:19:40,159 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 14:19:40,206 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 14:19:40,229 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 14:19:40,231 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 14:19:40,236 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 14:19:40,237 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 14:19:40,239 - utils.timer - INFO - Data Loading took 0.2543 seconds
+2025-08-30 14:19:40,239 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 14:19:40,240 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 14:19:40,240 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (3 trials)...
+2025-08-30 14:19:40,240 - training.optimizer - INFO - Starting Optuna optimization for 3 trials
+2025-08-30 14:19:40,240 - training.optimizer - INFO - Optimizing pr_auc with 5-fold TimeSeriesSplit
+2025-08-30 14:19:40,241 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 14:19:40,241 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 14:19:40,243 - models.mlp_model - INFO - Training MLP with params: {'hidden_dims': [256, 128, 64], 'dropout_rate': 0.379597545259111, 'learning_rate': 0.0002051338263087451, 'batch_size': 1024, 'epochs': 100, 'weight_decay': 0.0001, 'random_state': 42, 'n_jobs': -1}
+2025-08-30 14:19:40,243 - models.mlp_model - INFO - Device: cpu
+2025-08-30 14:19:40,253 - models.mlp_model - INFO - Class distribution: 12935 negatives, 3310 positives
+2025-08-30 14:19:40,253 - models.mlp_model - INFO - Positive weight: 3.9079
+2025-08-30 14:19:44,260 - models.mlp_model - INFO - Epoch 10: Train Loss = 0.9718
+2025-08-30 14:19:47,291 - models.mlp_model - INFO - Epoch 20: Train Loss = 0.9579
+2025-08-30 14:19:50,641 - models.mlp_model - INFO - Epoch 30: Train Loss = 0.9507
+2025-08-30 14:19:53,810 - models.mlp_model - INFO - Epoch 40: Train Loss = 0.9494
+2025-08-30 14:19:56,885 - models.mlp_model - INFO - Epoch 50: Train Loss = 0.9427
+2025-08-30 14:20:00,139 - models.mlp_model - INFO - Epoch 60: Train Loss = 0.9432
+2025-08-30 14:20:03,546 - models.mlp_model - INFO - Epoch 70: Train Loss = 0.9336
+2025-08-30 14:20:06,954 - models.mlp_model - INFO - Epoch 80: Train Loss = 0.9314
+2025-08-30 14:20:10,194 - models.mlp_model - INFO - Epoch 90: Train Loss = 0.9336
+2025-08-30 14:20:13,565 - models.mlp_model - INFO - Epoch 100: Train Loss = 0.9292
+2025-08-30 14:20:13,565 - models.mlp_model - INFO - MLP training completed
+2025-08-30 14:20:13,582 - training.validator - INFO - Fold 2: Train=32489, Val=16244
+2025-08-30 14:20:13,586 - models.mlp_model - INFO - Training MLP with params: {'hidden_dims': [256, 128, 64], 'dropout_rate': 0.379597545259111, 'learning_rate': 0.0002051338263087451, 'batch_size': 1024, 'epochs': 100, 'weight_decay': 0.0001, 'random_state': 42, 'n_jobs': -1}
+2025-08-30 14:20:13,586 - models.mlp_model - INFO - Device: cpu
+2025-08-30 14:20:13,593 - models.mlp_model - INFO - Class distribution: 25702 negatives, 6787 positives
+2025-08-30 14:20:13,593 - models.mlp_model - INFO - Positive weight: 3.7869
+2025-08-30 14:20:21,724 - models.mlp_model - INFO - Epoch 10: Train Loss = 0.9629
+2025-08-30 14:20:32,401 - models.mlp_model - INFO - Epoch 20: Train Loss = 0.9522
+2025-08-30 14:20:42,120 - models.mlp_model - INFO - Epoch 30: Train Loss = 0.9447
+2025-08-30 14:20:50,165 - models.mlp_model - INFO - Epoch 40: Train Loss = 0.9438
+2025-08-30 14:20:59,556 - models.mlp_model - INFO - Epoch 50: Train Loss = 0.9418
+2025-08-30 14:21:10,143 - models.mlp_model - INFO - Epoch 60: Train Loss = 0.9405
+2025-08-30 14:21:20,110 - models.mlp_model - INFO - Epoch 70: Train Loss = 0.9322
+2025-08-30 14:21:30,516 - models.mlp_model - INFO - Epoch 80: Train Loss = 0.9313
+2025-08-30 14:21:41,345 - models.mlp_model - INFO - Epoch 90: Train Loss = 0.9301
+2025-08-30 14:21:49,586 - __main__ - INFO - Pipeline initialized for deepfm model
+2025-08-30 14:21:49,586 - __main__ - INFO - ======================================================================
+2025-08-30 14:21:49,586 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 14:21:49,586 - __main__ - INFO - ======================================================================
+2025-08-30 14:21:49,586 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 14:21:49,586 - data.loader - INFO - Loading temporal split data...
+2025-08-30 14:21:49,774 - models.mlp_model - INFO - Epoch 100: Train Loss = 0.9278
+2025-08-30 14:21:49,774 - models.mlp_model - INFO - MLP training completed
+2025-08-30 14:21:49,774 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 14:21:49,803 - training.validator - INFO - Fold 3: Train=48733, Val=16244
+2025-08-30 14:21:49,807 - models.mlp_model - INFO - Training MLP with params: {'hidden_dims': [256, 128, 64], 'dropout_rate': 0.379597545259111, 'learning_rate': 0.0002051338263087451, 'batch_size': 1024, 'epochs': 100, 'weight_decay': 0.0001, 'random_state': 42, 'n_jobs': -1}
+2025-08-30 14:21:49,807 - models.mlp_model - INFO - Device: cpu
+2025-08-30 14:21:49,821 - models.mlp_model - INFO - Class distribution: 38578 negatives, 10155 positives
+2025-08-30 14:21:49,821 - models.mlp_model - INFO - Positive weight: 3.7989
+2025-08-30 14:21:49,821 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 14:21:49,856 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 14:21:49,860 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 14:21:49,863 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 14:21:49,863 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 14:21:49,863 - utils.timer - INFO - Data Loading took 0.2679 seconds
+2025-08-30 14:21:49,863 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 14:21:49,869 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 14:21:49,869 - __main__ - INFO - 
+[Step 2/5] Skipping optimization, using default parameters
+2025-08-30 14:21:49,869 - __main__ - INFO - 
+[Step 3/5] Training Final Model...
+2025-08-30 14:21:49,869 - models.deepfm_model - INFO - Training DeepFM with params: {'embedding_dim': 16, 'hidden_dims': [256, 128, 64], 'dropout_rate': 0.3, 'learning_rate': 0.001, 'batch_size': 512, 'epochs': 100, 'weight_decay': 0.0001}
+2025-08-30 14:21:49,869 - models.deepfm_model - INFO - Device: cpu
+2025-08-30 14:21:49,958 - models.deepfm_model - INFO - Field dimensions: [14, 2, 16, 8, 19, 2, 11, 4, 2, 7, 8, 4, 2, 2, 5, 20, 2, 2, 6, 20, 20, 17, 20, 2]
+2025-08-30 14:21:49,966 - models.deepfm_model - INFO - Class distribution: 77628 negatives, 19837 positives
+2025-08-30 14:21:49,966 - models.deepfm_model - INFO - Positive weight: 3.9133
+2025-08-30 14:21:59,419 - models.mlp_model - INFO - Epoch 10: Train Loss = 0.9596
+2025-08-30 14:22:10,374 - models.mlp_model - INFO - Epoch 20: Train Loss = 0.9507
+2025-08-30 14:22:22,060 - models.mlp_model - INFO - Epoch 30: Train Loss = 0.9440
+2025-08-30 14:22:33,523 - models.mlp_model - INFO - Epoch 40: Train Loss = 0.9421
+2025-08-30 14:22:42,237 - models.deepfm_model - INFO - Epoch 10: Train Loss = 0.9124
+2025-08-30 15:03:08,374 - __main__ - INFO - Pipeline initialized for fttransformer model
+2025-08-30 15:03:08,374 - __main__ - INFO - ======================================================================
+2025-08-30 15:03:08,374 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 15:03:08,374 - __main__ - INFO - ======================================================================
+2025-08-30 15:03:08,374 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 15:03:08,374 - data.loader - INFO - Loading temporal split data...
+2025-08-30 15:03:08,534 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 15:03:08,576 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 15:03:08,591 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 15:03:08,591 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 15:03:08,607 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 15:03:08,607 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 15:03:08,607 - utils.timer - INFO - Data Loading took 0.2368 seconds
+2025-08-30 15:03:08,607 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 15:03:08,607 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 15:03:08,607 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (1 trials)...
+2025-08-30 15:03:08,607 - training.optimizer - INFO - Starting Optuna optimization for 1 trials
+2025-08-30 15:03:08,607 - training.optimizer - INFO - Optimizing pr_auc with 5-fold TimeSeriesSplit
+2025-08-30 15:03:08,607 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 15:03:08,607 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 15:03:08,607 - models.fttransformer_model - INFO - Training FT-Transformer with params: {'d_model': 128, 'num_heads': 4, 'num_layers': 2, 'd_ff': 384, 'dropout_rate': 0.2416145155592091, 'learning_rate': 1.0994335574766187e-05, 'batch_size': 128, 'epochs': 100, 'weight_decay': 0.0001, 'random_state': 42, 'n_jobs': -1}
+2025-08-30 15:03:08,607 - models.fttransformer_model - INFO - Device: cpu
+2025-08-30 15:03:08,636 - models.fttransformer_model - INFO - Class distribution: 12935 negatives, 3310 positives
+2025-08-30 15:03:08,636 - models.fttransformer_model - INFO - Positive weight: 3.9079
+2025-08-30 15:05:00,902 - models.fttransformer_model - INFO - Epoch 10: Train Loss = 0.9856
+2025-08-30 15:05:20,234 - __main__ - INFO - Pipeline initialized for tabnet model
+2025-08-30 15:05:20,235 - __main__ - INFO - ======================================================================
+2025-08-30 15:05:20,235 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 15:05:20,235 - __main__ - INFO - ======================================================================
+2025-08-30 15:05:20,235 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 15:05:20,235 - data.loader - INFO - Loading temporal split data...
+2025-08-30 15:05:20,512 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 15:05:20,576 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 15:05:20,605 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 15:05:20,612 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 15:05:20,619 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 15:05:20,620 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 15:05:20,624 - utils.timer - INFO - Data Loading took 0.3877 seconds
+2025-08-30 15:05:20,624 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 15:05:20,624 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 15:05:20,625 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (1 trials)...
+2025-08-30 15:05:20,625 - training.optimizer - INFO - Starting Optuna optimization for 1 trials
+2025-08-30 15:05:20,625 - training.optimizer - INFO - Optimizing pr_auc with 5-fold TimeSeriesSplit
+2025-08-30 15:05:20,630 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 15:05:20,631 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 15:05:20,634 - models.tabnet_model - INFO - Training TabNet with params: {'n_d': 16, 'n_a': 8, 'n_steps': 3, 'gamma': 1.4330880728874675, 'n_independent': 2, 'n_shared': 3, 'lambda_sparse': 0.00010994335574766199, 'learning_rate': 0.04665303012212833, 'batch_size': 512, 'epochs': 100, 'weight_decay': 0.0001, 'virtual_batch_size': 512, 'random_state': 42, 'n_jobs': -1}
+2025-08-30 15:05:20,634 - models.tabnet_model - INFO - Device: cpu
+2025-08-30 15:05:20,648 - models.tabnet_model - INFO - Class distribution: 12935 negatives, 3310 positives
+2025-08-30 15:05:20,648 - models.tabnet_model - INFO - Positive weight: 3.9079
+2025-08-30 15:05:22,002 - utils.timer - INFO - Hyperparameter Optimization took 1.3774 seconds
+2025-08-30 15:06:03,306 - __main__ - INFO - Pipeline initialized for tabnet model
+2025-08-30 15:06:03,306 - __main__ - INFO - ======================================================================
+2025-08-30 15:06:03,306 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 15:06:03,306 - __main__ - INFO - ======================================================================
+2025-08-30 15:06:03,306 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 15:06:03,306 - data.loader - INFO - Loading temporal split data...
+2025-08-30 15:06:03,520 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 15:06:03,571 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 15:06:03,586 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 15:06:03,602 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 15:06:03,602 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 15:06:03,602 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 15:06:03,602 - utils.timer - INFO - Data Loading took 0.3079 seconds
+2025-08-30 15:06:03,602 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 15:06:03,602 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 15:06:03,602 - __main__ - INFO - 
+[Step 2/5] Hyperparameter Optimization (1 trials)...
+2025-08-30 15:06:03,602 - training.optimizer - INFO - Starting Optuna optimization for 1 trials
+2025-08-30 15:06:03,602 - training.optimizer - INFO - Optimizing pr_auc with 5-fold TimeSeriesSplit
+2025-08-30 15:06:03,618 - training.validator - INFO - Starting TimeSeriesSplit with 5 folds
+2025-08-30 15:06:03,618 - training.validator - INFO - Fold 1: Train=16245, Val=16244
+2025-08-30 15:06:03,621 - models.tabnet_model - INFO - Training TabNet with params: {'n_d': 16, 'n_a': 8, 'n_steps': 3, 'gamma': 1.4330880728874675, 'n_independent': 2, 'n_shared': 3, 'lambda_sparse': 0.00010994335574766199, 'learning_rate': 0.04665303012212833, 'batch_size': 512, 'epochs': 100, 'weight_decay': 0.0001, 'virtual_batch_size': 512, 'random_state': 42, 'n_jobs': -1}
+2025-08-30 15:06:03,621 - models.tabnet_model - INFO - Device: cpu
+2025-08-30 15:06:03,638 - models.tabnet_model - INFO - Class distribution: 12935 negatives, 3310 positives
+2025-08-30 15:06:03,638 - models.tabnet_model - INFO - Positive weight: 3.9079
+2025-08-30 15:06:04,732 - utils.timer - INFO - Hyperparameter Optimization took 1.1184 seconds
+2025-08-30 15:08:47,688 - __main__ - INFO - Pipeline initialized for tabnet model
+2025-08-30 15:08:47,688 - __main__ - INFO - ======================================================================
+2025-08-30 15:08:47,688 - __main__ - INFO - Starting No-Show Prediction Pipeline
+2025-08-30 15:08:47,688 - __main__ - INFO - ======================================================================
+2025-08-30 15:08:47,688 - __main__ - INFO - 
+[Step 1/5] Loading Data...
+2025-08-30 15:08:47,688 - data.loader - INFO - Loading temporal split data...
+2025-08-30 15:08:47,875 - data.loader - INFO - Loaded data - Train: 86636, Val: 10829, Test: 10831
+2025-08-30 15:08:47,919 - data.loader - INFO - Combined train+val: 97465 samples
+2025-08-30 15:08:47,954 - data.loader - INFO - Prepared features: (97465, 24), Target distribution: {0: 77628, 1: 19837}
+2025-08-30 15:08:47,958 - data.loader - INFO - Prepared features: (10831, 24), Target distribution: {0: 8895, 1: 1936}
+2025-08-30 15:08:47,959 - data.loader - INFO - Final split - Train: 97465, Test: 10831
+2025-08-30 15:08:47,959 - data.loader - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 15:08:47,959 - utils.timer - INFO - Data Loading took 0.2799 seconds
+2025-08-30 15:08:47,959 - __main__ - INFO - Data shapes - Train: (97465, 24), Test: (10831, 24)
+2025-08-30 15:08:47,959 - __main__ - INFO - Class distribution - Train: [77628 19837], Test: [8895 1936]
+2025-08-30 15:08:47,959 - __main__ - INFO - 
+[Step 2/5] Skipping optimization, using default parameters
+2025-08-30 15:08:47,959 - __main__ - INFO - 
+[Step 3/5] Training Final Model...
+2025-08-30 15:08:47,959 - models.tabnet_model - INFO - Training TabNet with params: {'n_d': 8, 'n_a': 8, 'n_steps': 3, 'gamma': 1.3, 'n_independent': 2, 'n_shared': 2, 'lambda_sparse': 0.001, 'learning_rate': 0.02, 'batch_size': 1024, 'epochs': 100, 'weight_decay': 0.0001, 'virtual_batch_size': 512}
+2025-08-30 15:08:47,959 - models.tabnet_model - INFO - Device: cpu
+2025-08-30 15:08:48,007 - models.tabnet_model - INFO - Class distribution: 77628 negatives, 19837 positives
+2025-08-30 15:08:48,007 - models.tabnet_model - INFO - Positive weight: 3.9133
+2025-08-30 15:09:29,537 - models.tabnet_model - INFO - Epoch 10: Train Loss = 0.9407
+2025-08-30 15:10:22,126 - models.tabnet_model - INFO - Epoch 20: Train Loss = 0.9393

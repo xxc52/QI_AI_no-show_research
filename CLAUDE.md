@@ -175,31 +175,73 @@ pip install -r requirements.txt
 
 ## 아키텍처 개요
 
-모듈화된 구조로 관심사의 명확한 분리:
+### 🚀 새로운 ML Pipeline (`model/` 폴더) - **현재 사용 중**
 
-### 핵심 컴포넌트
+완전히 새롭게 구축된 연구용 ML 파이프라인으로, 6개 모델과 포괄적인 평가 시스템을 제공합니다.
 
-1. **메인 진입점** (`main.py`): 전체 파이프라인 조정 - 데이터 로딩, 전처리, 모델 학습, 평가
+#### 핵심 컴포넌트
 
-2. **데이터 처리 파이프라인** (`models/data/`):
+1. **메인 진입점** (`model/main.py`): 전체 파이프라인 조정 및 모델별 실행
+2. **벤치마킹 시스템** (`model/benchmark.py`): 모든 모델 자동 비교 (`--model all`)
+3. **데이터 로더** (`model/data/loader.py`): 시간분할 데이터 로딩 및 TimeSeriesSplit
+4. **모델 구현** (`model/models/`): 6개 모델 각각 독립 모듈
+   - `random_forest.py`: 기준 앙상블 모델
+   - `lightgbm_model.py`: 고성능 그래디언트 부스팅
+   - `mlp_model.py`: 다층 퍼셉트론 (PyTorch)
+   - `deepfm_model.py`: DeepFM (Linear + FM + Deep)
+   - `fttransformer_model.py`: Feature Tokenizer + Transformer
+   - `tabnet_model.py`: 어텐션 기반 해석 가능 모델
+5. **학습 시스템** (`model/training/`):
+   - `validator.py`: TimeSeriesSplit 교차 검증
+   - `optimizer.py`: Optuna 베이지안 최적화 (PR-AUC 최적화)
+6. **평가 시스템** (`model/evaluation/metrics.py`): 15+ 불균형 데이터 특화 지표
+7. **설정 관리** (`model/config/config.py`): 모든 모델 하이퍼파라미터 중앙 관리
 
-   - `preprocessing.py`: 데이터 로딩, 특징 공학, train/val/test 분할
-   - `scaler.py`: 수치형 특징을 위한 커스텀 표준 스케일러
-   - `dataset.py`: 효율적인 배치 로딩을 위한 PyTorch Dataset 래퍼
+#### 주요 사용법
 
-3. **모델 구현** (`models/models/`):
+```bash
+# 단일 모델 실행
+python model/main.py --model randomforest --trials 50
 
-   - MLP, Wide&Deep, DeepFM, FT-Transformer, TabNet 각각 독립 모듈
-   - 모든 모델은 `nn.Module` 상속, 일관된 forward() 인터페이스
-   - 임베딩을 통한 수치형 및 범주형 특징 처리
+# 모든 모델 비교 (벤치마킹)
+python model/main.py --model all --trials 100
 
-4. **학습 프레임워크** (`models/training/`):
+# 빠른 테스트
+python model/main.py --model lightgbm --no-optimize
+```
 
-   - `trainer.py`: validation AUC-PR 기반 조기 종료 포함 학습 루프
-   - `metrics.py`: 종합 평가 지표 (Accuracy, Recall, F1, ROC-AUC, AUC-PR)
-   - `utils.py`: 모델 포워딩 및 임계값 최적화 헬퍼 함수
+### 📊 지원 모델 및 특징
 
-5. **설정** (`models/config.py`): 모든 모델과 학습 설정의 중앙화된 하이퍼파라미터 관리
+| 모델 | 타입 | 주요 특징 | 사용 사례 |
+|------|------|-----------|-----------|
+| **RandomForest** | 앙상블 | 빠른 훈련, 해석 가능 | 기준 모델, 특징 중요도 |
+| **LightGBM** | 그래디언트 부스팅 | 고성능, 조기 중단 | 실제 배포, 최고 성능 |
+| **MLP** | 딥러닝 | BatchNorm, Dropout | 딥러닝 기준 |
+| **DeepFM** | 하이브리드 | Linear + FM + Deep | 특징 상호작용 |
+| **FT-Transformer** | 트랜스포머 | Self-attention | 최신 테이블 학습 |
+| **TabNet** | 어텐션 | 해석 가능한 어텐션 | 해석 가능한 딥러닝 |
+
+#### 평가 지표 (불균형 데이터 특화)
+
+- **주요 지표**: PR-AUC (Precision-Recall AUC)
+- **기본 지표**: Accuracy, Precision, Recall, F1, F2
+- **고급 지표**: MCC, Cohen's Kappa, G-Mean, Balanced Accuracy
+- **확률 지표**: ROC-AUC, Brier Score, Log Loss
+- **성능 지표**: 훈련시간, 예측시간 (ms)
+
+---
+
+### 📚 기존 구현 (`models/` 폴더) - **더 이상 사용 안 함**
+
+이전 버전의 구현으로, 현재는 사용하지 않습니다. 삭제해도 됩니다.
+
+**구성 요소** (참고용):
+- `preprocessing.py`: 데이터 로딩, 특징 공학, train/val/test 분할
+- `scaler.py`: 수치형 특징을 위한 커스텀 표준 스케일러  
+- `dataset.py`: 효율적인 배치 로딩을 위한 PyTorch Dataset 래퍼
+- `trainer.py`: validation AUC-PR 기반 조기 종료 포함 학습 루프
+- `metrics.py`: 종합 평가 지표 (Accuracy, Recall, F1, ROC-AUC, AUC-PR)
+- `utils.py`: 모델 포워딩 및 임계값 최적화 헬퍼 함수
 
 ### 주요 설계 패턴
 
@@ -224,12 +266,22 @@ pip install -r requirements.txt
 
 ## 연구 기여사항
 
+### 데이터 과학 기여사항
 1. **시계열 특징 엔지니어링**: 환자별 이력 기반 6개 파생변수로 예측 성능 향상
 2. **지리적 클러스터링**: 81개 지역을 노쇼 패턴 기반 6개 클러스터로 차원 축소
 3. **외생변수 통합**: 19개 날씨 변수로 환경적 요인이 노쇼에 미치는 영향 분석
 4. **통계적 특징 선택**: Univariate statistical test로 46→24개 변수 선별 (57.1% 선택률)
 5. **현실적 데이터 분할**: 시간 기반 순차 분할로 실제 배포 시나리오 반영
-6. **다중 모델 비교**: MLP, Wide&Deep, DeepFM, FT-Transformer, TabNet 성능 벤치마킹
+
+### 모델링 및 시스템 기여사항
+6. **포괄적 모델 비교**: 6개 최신 모델의 체계적 벤치마킹 시스템
+   - 전통적 ML: RandomForest, LightGBM
+   - 딥러닝: MLP, DeepFM, FT-Transformer, TabNet
+7. **불균형 데이터 특화 평가**: PR-AUC 최적화 및 15+ 평가지표 체계
+8. **연구용 하이퍼파라미터 최적화**: Optuna 베이지안 최적화로 효율성 향상
+9. **시간 무결성 보장**: TimeSeriesSplit 교차 검증으로 데이터 누출 방지
+10. **생산 배포 고려**: 훈련/예측 시간 측정 및 모델 지속성 지원
+11. **재현가능한 연구**: 고정 시드, 결정적 프로세스, 포괄적 문서화
 
 ## 주요 발견사항
 
@@ -263,6 +315,34 @@ pip install -r requirements.txt
 │   ├── univariate_test_results_all_features.csv # 통계분석 상세 결과
 │   ├── univariate_feature_selection.py       # Feature selection 분석 스크립트
 │   └── create_ml_ready_dataset.py            # ML 데이터셋 생성 스크립트
+├── model/                                     # ✅ 새로운 ML 파이프라인 (현재 사용)
+│   ├── main.py                               # 메인 실행 파일
+│   ├── benchmark.py                          # 포괄적 모델 벤치마킹
+│   ├── README.md                             # 완전한 사용 가이드
+│   ├── config/config.py                      # 중앙 설정 관리
+│   ├── data/loader.py                        # 시간분할 데이터 로더
+│   ├── models/                               # 6개 모델 구현
+│   │   ├── random_forest.py                 # RandomForest 모델
+│   │   ├── lightgbm_model.py                # LightGBM 모델
+│   │   ├── mlp_model.py                     # MLP (PyTorch)
+│   │   ├── deepfm_model.py                  # DeepFM 모델
+│   │   ├── fttransformer_model.py           # FT-Transformer 모델
+│   │   └── tabnet_model.py                  # TabNet 모델 (✅ 차원 오류 수정)
+│   ├── training/                             # 훈련 시스템
+│   │   ├── validator.py                     # TimeSeriesSplit 교차 검증
+│   │   └── optimizer.py                     # Optuna 베이지안 최적화
+│   ├── evaluation/metrics.py                 # 15+ 평가 지표
+│   ├── utils/timer.py                        # 성능 측정 도구
+│   └── results/                              # 결과 저장소
+│       ├── benchmark/                        # 벤치마크 결과 (JSON, CSV)
+│       ├── best_params/                      # 최적 하이퍼파라미터 (JSON)
+│       ├── models/                           # 훈련된 모델 (PKL)
+│       └── logs/                             # 훈련 로그
+├── models/                                    # ❌ 기존 구현 (삭제 가능)
+│   ├── config.py                             # 이전 버전 설정
+│   ├── data/                                 # 이전 버전 데이터 처리
+│   ├── models/                               # 이전 버전 모델들
+│   └── training/                             # 이전 버전 훈련 코드
 ├── neighbourhood_clustering_methodology.md     # 지역 클러스터링 방법론 문서
 ├── analyse_neighbourhood.py                   # 지역 분석 스크립트
 ├── validate_weather_data.py                   # 날씨 데이터 검증 스크립트
@@ -270,3 +350,14 @@ pip install -r requirements.txt
 ├── neighbourhood_clusters.json                # 지역-클러스터 매핑 파일
 └── weather_sum_2015.csv, weather_sum_2016.csv # 브라질 기상청 날씨 데이터
 ```
+
+### 📂 주요 폴더 설명
+
+- **`model/`**: 🚀 **현재 사용 중인 완전한 ML 파이프라인**
+  - 6개 모델, 벤치마킹 시스템, 포괄적 평가 지표
+  - 연구용 최적화된 하이퍼파라미터 튜닝
+  - 시간분할 데이터, TimeSeriesSplit 교차 검증
+
+- **`models/`**: ❌ **기존 구현 (삭제 가능)**  
+  - 이전 버전의 모델 구현
+  - 현재는 `model/` 폴더의 새로운 파이프라인 사용
