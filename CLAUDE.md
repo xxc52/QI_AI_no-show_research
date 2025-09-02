@@ -6,6 +6,42 @@
 
 병원 예약 노쇼(no-show) 예측을 위한 QI AI 연구 프로젝트입니다. 다양한 신경망 모델을 구현하고 비교하여 환자의 노쇼를 예측하는 것이 목표입니다.
 
+## 🚀 Quick Start
+
+```bash
+# 1. 저장소 클론
+git clone https://github.com/xxc52/QI_AI_no-show_research.git
+cd QI_AI_no-show_research
+
+# 2. 가상환경 생성 및 활성화 (권장)
+python -m venv venv_noshow
+# Windows:
+venv_noshow\Scripts\activate.bat
+# Linux/Mac:
+source venv_noshow/bin/activate
+
+# 3. 패키지 설치
+pip install -r requirements.txt
+
+# 4. 모델 실행 - 빠른 테스트
+python model/main.py --model randomforest --trials 5
+python model/main.py --model lightgbm --no-optimize
+
+# 5. 본격적인 하이퍼파라미터 최적화
+python model/main.py --model lightgbm --trials 100
+```
+
+**GPU 사용자**:
+```bash
+# LightGBM GPU 활성화
+export LIGHTGBM_USE_GPU=1  # Linux/Mac
+set LIGHTGBM_USE_GPU=1     # Windows
+python model/main.py --model lightgbm --trials 100
+
+# GPU 설정 상세 가이드
+cat model/GPU_SETUP_GUIDE.md
+```
+
 ### 데이터셋 정보
 
 **final_dataset_with_weather_clusters.csv**: 108,296개의 예약 기록, 62,299명의 고유 환자
@@ -200,14 +236,20 @@ pip install -r requirements.txt
 #### 주요 사용법
 
 ```bash
-# 단일 모델 실행
+# 단일 모델 실행 (권장)
 python model/main.py --model randomforest --trials 50
+python model/main.py --model lightgbm --trials 100
 
-# 모든 모델 비교 (벤치마킹)
+# 모든 모델 비교 (벤치마킹) - GPU 권장
 python model/main.py --model all --trials 100
 
-# 빠른 테스트
+# 빠른 테스트 (기본 파라미터로 실행)
 python model/main.py --model lightgbm --no-optimize
+
+# GPU 사용 (LightGBM)
+export LIGHTGBM_USE_GPU=1  # Linux/Mac
+set LIGHTGBM_USE_GPU=1     # Windows
+python model/main.py --model lightgbm --trials 100
 ```
 
 ### 📊 지원 모델 및 특징
@@ -215,11 +257,11 @@ python model/main.py --model lightgbm --no-optimize
 | 모델 | 타입 | 주요 특징 | 사용 사례 |
 |------|------|-----------|-----------|
 | **RandomForest** | 앙상블 | 빠른 훈련, 해석 가능 | 기준 모델, 특징 중요도 |
-| **LightGBM** | 그래디언트 부스팅 | 고성능, 조기 중단 | 실제 배포, 최고 성능 |
-| **MLP** | 딥러닝 | BatchNorm, Dropout | 딥러닝 기준 |
-| **DeepFM** | 하이브리드 | Linear + FM + Deep | 특징 상호작용 |
-| **FT-Transformer** | 트랜스포머 | Self-attention | 최신 테이블 학습 |
-| **TabNet** | 어텐션 | 해석 가능한 어텐션 | 해석 가능한 딥러닝 |
+| **LightGBM** | 그래디언트 부스팅 | 고성능, GPU 지원 | 실제 배포, 최고 성능 |
+| **MLP** | 딥러닝 | BatchNorm, Dropout, GPU 자동감지 | 딥러닝 기준 |
+| **DeepFM** | 하이브리드 | Linear + FM + Deep, GPU 자동감지 | 특징 상호작용 |
+| **FT-Transformer** | 트랜스포머 | Self-attention, GPU 자동감지 | 최신 테이블 학습 |
+| **TabNet** | 어텐션 | 해석 가능한 어텐션, GPU 자동감지 | 해석 가능한 딥러닝 |
 
 #### 평가 지표 (불균형 데이터 특화)
 
@@ -257,12 +299,30 @@ python model/main.py --model lightgbm --no-optimize
 - **TabNet**: 선택적 의존성 (pytorch-tabnet), 미설치시 우아한 처리
 - **MLP**: BatchNorm과 Dropout으로 정규화된 기준 모델
 
+## GPU 지원 및 성능
+
+### 🎮 GPU 자동 지원
+- **신경망 모델** (MLP, DeepFM, FT-Transformer, TabNet): PyTorch CUDA 자동 감지
+- **LightGBM**: 환경변수 `LIGHTGBM_USE_GPU=1`로 활성화
+- **상세 가이드**: `model/GPU_SETUP_GUIDE.md` 참고
+
+### ⚡ 성능 예상치
+**CPU 모드** (현재 테스트 환경):
+- RandomForest: ~7-10초/trial
+- LightGBM: ~10-15초/trial  
+- 신경망 모델: 2-5분/trial (trials=1 기준)
+
+**GPU 모드** (CUDA 지원 환경):
+- LightGBM: 2-3배 속도 향상
+- 신경망 모델: 5-10배 속도 향상
+
 ## 중요 사항
 
-- 노쇼 예측의 클래스 불균형을 pos_weight로 처리
-- 모든 모델은 동일한 train/val/test 분할 (60/20/20) 및 층화 샘플링 사용
-- 클래스 불균형으로 인해 다양한 지표로 성능 평가 (특히 AUC-PR 중요)
-- CPU와 CUDA 실행 모두 지원, 자동 장치 감지
+- **클래스 불균형 처리**: pos_weight와 scale_pos_weight로 노쇼 클래스(20.11%) 가중치 조정
+- **시간 기반 분할**: Temporal split으로 train/val/test (80/10/10) 순차 분할
+- **평가 지표**: PR-AUC를 주요 지표로 사용 (불균형 데이터에 적합)
+- **결과 저장**: 모든 실행 결과가 `model/results/`에 timestamp와 함께 자동 저장
+- **재현 가능성**: 고정 시드(42)와 결정적 프로세스로 일관된 결과 보장
 
 ## 연구 기여사항
 
@@ -318,26 +378,27 @@ python model/main.py --model lightgbm --no-optimize
 ├── model/                                     # ✅ 새로운 ML 파이프라인 (현재 사용)
 │   ├── main.py                               # 메인 실행 파일
 │   ├── benchmark.py                          # 포괄적 모델 벤치마킹
-│   ├── README.md                             # 완전한 사용 가이드
+│   ├── GPU_SETUP_GUIDE.md                   # GPU 설정 가이드
 │   ├── config/config.py                      # 중앙 설정 관리
 │   ├── data/loader.py                        # 시간분할 데이터 로더
 │   ├── models/                               # 6개 모델 구현
-│   │   ├── random_forest.py                 # RandomForest 모델
-│   │   ├── lightgbm_model.py                # LightGBM 모델
-│   │   ├── mlp_model.py                     # MLP (PyTorch)
-│   │   ├── deepfm_model.py                  # DeepFM 모델
-│   │   ├── fttransformer_model.py           # FT-Transformer 모델
-│   │   └── tabnet_model.py                  # TabNet 모델 (✅ 차원 오류 수정)
+│   │   ├── random_forest.py                 # RandomForest 모델 (✅ 버그 수정)
+│   │   ├── lightgbm_model.py                # LightGBM 모델 (✅ GPU 지원)
+│   │   ├── mlp_model.py                     # MLP (PyTorch, GPU 자동감지)
+│   │   ├── deepfm_model.py                  # DeepFM 모델 (GPU 자동감지)
+│   │   ├── fttransformer_model.py           # FT-Transformer (GPU 자동감지)
+│   │   └── tabnet_model.py                  # TabNet 모델 (GPU 자동감지)
 │   ├── training/                             # 훈련 시스템
 │   │   ├── validator.py                     # TimeSeriesSplit 교차 검증
 │   │   └── optimizer.py                     # Optuna 베이지안 최적화
 │   ├── evaluation/metrics.py                 # 15+ 평가 지표
 │   ├── utils/timer.py                        # 성능 측정 도구
-│   └── results/                              # 결과 저장소
-│       ├── benchmark/                        # 벤치마크 결과 (JSON, CSV)
-│       ├── best_params/                      # 최적 하이퍼파라미터 (JSON)
-│       ├── models/                           # 훈련된 모델 (PKL)
-│       └── logs/                             # 훈련 로그
+│   └── results/                              # 결과 저장소 (폴더 구조만 유지)
+│       ├── benchmark/                        # 벤치마크 결과 (.gitkeep)
+│       ├── best_params/                      # 최적 하이퍼파라미터 (.gitkeep)
+│       ├── models/                           # 훈련된 모델 (.gitkeep)
+│       ├── figures/                          # 시각화 결과 (.gitkeep)
+│       └── logs/                             # 훈련 로그 (.gitkeep)
 ├── models/                                    # ❌ 기존 구현 (삭제 가능)
 │   ├── config.py                             # 이전 버전 설정
 │   ├── data/                                 # 이전 버전 데이터 처리
