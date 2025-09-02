@@ -103,6 +103,7 @@ LGBM_DEFAULT_PARAMS = {
     'random_state': RANDOM_SEED,
     'n_jobs': -1,
     'verbose': -1  # Suppress warnings
+    # GPU parameters will be added conditionally in the model class
 }
 
 # LightGBM search space for Optuna (expanded based on user feedback)  

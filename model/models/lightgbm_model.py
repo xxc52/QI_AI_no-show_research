@@ -39,6 +39,25 @@ class LightGBMNoShow:
             
         # Merge with default parameters
         self.params = {**LGBM_DEFAULT_PARAMS, **params}
+        
+        # Check if GPU is available through environment variable or auto-detection
+        # Users with GPU can set environment variable: export LIGHTGBM_USE_GPU=1
+        import os
+        use_gpu = os.environ.get('LIGHTGBM_USE_GPU', '0') == '1'
+        
+        if use_gpu:
+            # Add GPU parameters for users with proper GPU setup
+            self.params['device'] = 'gpu'
+            self.params['gpu_platform_id'] = 0
+            self.params['gpu_device_id'] = 0
+            logger.info("LightGBM GPU mode enabled (LIGHTGBM_USE_GPU=1)")
+        else:
+            # Remove any GPU parameters for CPU mode
+            self.params.pop('device', None)
+            self.params.pop('gpu_platform_id', None)
+            self.params.pop('gpu_device_id', None)
+            logger.info("LightGBM using CPU mode (set LIGHTGBM_USE_GPU=1 for GPU)")
+        
         self.model = lgb.LGBMClassifier(**self.params)
         self.feature_names = None
         self.is_fitted = False

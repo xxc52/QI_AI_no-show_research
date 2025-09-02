@@ -161,17 +161,17 @@ class RandomForestNoShow:
         params = {}
         
         # Only optimize key parameters for efficiency
-        params['max_depth'] = trial.suggest_int('max_depth',
-                                               RF_SEARCH_SPACE['max_depth']['low'],
-                                               RF_SEARCH_SPACE['max_depth']['high'],
-                                               step=RF_SEARCH_SPACE['max_depth']['step'])
+        # max_depth is categorical (None or 15)
+        params['max_depth'] = trial.suggest_categorical('max_depth',
+                                                       RF_SEARCH_SPACE['max_depth']['choices'])
         
+        # min_samples_split is integer range
         params['min_samples_split'] = trial.suggest_int('min_samples_split',
                                                        RF_SEARCH_SPACE['min_samples_split']['low'],
                                                        RF_SEARCH_SPACE['min_samples_split']['high'])
         
-        params['min_samples_leaf'] = trial.suggest_int('min_samples_leaf',
-                                                      RF_SEARCH_SPACE['min_samples_leaf']['low'],
-                                                      RF_SEARCH_SPACE['min_samples_leaf']['high'])
+        # min_samples_leaf is categorical (1 or 5)
+        params['min_samples_leaf'] = trial.suggest_categorical('min_samples_leaf',
+                                                              RF_SEARCH_SPACE['min_samples_leaf']['choices'])
         
         return params
